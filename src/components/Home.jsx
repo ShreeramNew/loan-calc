@@ -251,7 +251,13 @@ export default function Home() {
                   {showTable && (
                      <div className=" border-x-[1px] border-gray-200 ">
                         <div className=" text-[1.3rem] mb-4 ml-4">{`Amortization Schedule (${ActiveCurrency})`}</div>
-                        <Table dataSource={dataSource} columns={columns} />
+                        <Table
+                           sticky={true}
+                           pagination={false}
+                           dataSource={dataSource}
+                           columns={columns}
+                           scroll={{y:"30rem"}}
+                        />
                      </div>
                   )}
                </>
