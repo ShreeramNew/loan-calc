@@ -2,14 +2,18 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { ConfigProvider, Switch } from "antd";
 import { Outlet } from "react-router";
+import useGeneralContext from "../hooks/useGeneralContext";
 
 export default function NavBar() {
+   const { toggleDarkMode } = useGeneralContext();
    const onChange = (checked) => {
       console.log(`switch to ${checked}`);
+      toggleDarkMode();
    };
+
    return (
       <div>
-         <div className=" h-[4rem] px-[3rem] bg-gradient-to-r from-blue-500  to-blue-600 flex justify-between items-center shadow-xl">
+         <div className=" h-[4rem] px-[3rem] bg-gradient-to-r from-blue-500  to-blue-600 flex justify-between items-center shadow-xl dark:text-red-900">
             {/* Titlle  */}
             <div className=" text-white text-[1.2rem] border- z-[100] font-medium">
                Loan Calculator

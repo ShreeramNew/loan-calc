@@ -3,31 +3,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import Loading from "react-loading";
 import { ClipLoader } from "react-spinners";
+import useExchangeRate from "../hooks/useExchangeRate";
+import useGeneralContext from "../hooks/useGeneralContext";
 
 export default function ExchangeRates() {
-   const [ExchangeData, setExchangeData] = useState({});
-   const [loading, setLoading] = useState(true);
-   const FetchAPI = async () => {
-      const API =
-         "https://v6.exchangerate-api.com/v6/" + import.meta.env.VITE_API_KEY + "/latest/USD";
-      try {
-         setLoading(true);
-         const response = await axios.get(API);
-         setExchangeData(response?.data?.conversion_rates);
-         console.log(response);
-      } catch (error) {
-         alert("Something went wrong");
-         console.log(error);
-      } finally {
-         setLoading(false);
-      }
-   };
-
-   useEffect(() => {
-      // FetchAPI();
-   }, []);
-
    const [pageNumber, setPageNumber] = useState(1);
+   const ExchangeData = useExchangeRate();
+
+   const { dataLoading } = useGeneralContext();
 
    //-------------------Handle Click on Left-------------------------
    const handleLeft = () => {
@@ -45,7 +28,7 @@ export default function ExchangeRates() {
 
    return (
       <div className=" w-full min-h-[50vh] flex justify-center items-center">
-         {loading ? (
+         {dataLoading ? (
             <ClipLoader size={50} color="gray" />
          ) : (
             <div className=" w-full max-w-[78rem] mx-auto py-[2rem]  ">

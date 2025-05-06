@@ -1,7 +1,9 @@
-import { Dropdown, Table } from "antd";
+import { Table } from "antd";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { FaCaretDown } from "react-icons/fa6";
+import useGeneralContext from "../hooks/useGeneralContext";
+import BasicMenu from "./ui/DropDown";
 
 export default function Home() {
    const amountRef = useRef();
@@ -9,8 +11,7 @@ export default function Home() {
    const termRef = useRef();
 
    const [showTable, setShowTable] = useState(false);
-   const [ActiveCurrency, setActiveCurrency] = useState("USD");
-
+   const { ActiveCurrency, setActiveCurrency } = useGeneralContext();
    const InputBoxes = [
       {
          inputRef: amountRef,
@@ -155,32 +156,12 @@ export default function Home() {
       }
    };
 
-   //----------------------------------------------Drop Down Items-----------------------------------------------
-   const items = [
-      ...["USD", "EUR", "INR", "GBP", "JPY", "AUD", "CAD"].map((item, index) => {
-         return {
-            key: (index + 1).toString() + "Currency",
-            label: (
-               <div
-                  onClick={() => {
-                     setActiveCurrency(item);
-                     setIsmenuOpen(false);
-                  }}
-                  className=" cursor-pointer px-[1rem] py-[5px]"
-               >
-                  {item}
-               </div>
-            ),
-         };
-      }),
-   ];
-
    return (
       <div>
          <div className=" text-black lg:max-w-[75rem] mx-auto py-[2rem]">
-            <div className=" text-[2rem] mb-[1rem] font-medium  ">Loan Calculator Dashboard</div>
+            <div className=" text-[1.2rem] md:text-[2rem] mb-[1rem] font-medium text-center  ">Loan Calculator Dashboard</div>
             {/* Input Boxes  */}
-            <div className=" flex gap-[2rem] justify-start items-center">
+            <div className=" flex gap-[2rem] flex-col md:flex-row justify-start items-center">
                {InputBoxes.map(({ inputRef, label, defaultValue }) => (
                   <CustomInput
                      key={label}
@@ -207,35 +188,7 @@ export default function Home() {
                      <div>
                         <div className=" text-[1.4rem] mb-[1.5rem]">Monthly EMI: ${EMI}</div>
                         {/* Currency selector  */}
-                        <Dropdown
-                           menu={{ items }}
-                           placement="bottomLeft"
-                           trigger={"click"}
-                           open={isMenuOpen}
-                        >
-                           <div
-                              onClick={() => setIsmenuOpen((prev) => !prev)}
-                              className={` ${
-                                 isMenuOpen ? "  !border-blue-500 !border-2" : "border-gray-400"
-                              } w-[5rem] hover:border-gray-600  h-[3.5rem] border-[1px] relative rounded-[6px] flex justify-center items-center gap-1 cursor-pointer  text-gray-800`}
-                           >
-                              <div>{ActiveCurrency}</div>
-                              <FaCaretDown
-                                 color="#596374"
-                                 className={` ${
-                                    isMenuOpen ? " rotate-[-180deg]" : " rotate-[0deg]"
-                                 } transition-all  duration-300`}
-                                 rotate={isMenuOpen ? 90 : 0}
-                              />
-                              <div
-                                 className={` bg-white absolute top-[-12px] py-[2px] px-[5px] text-[12px] ${
-                                    isMenuOpen ? "  !text-blue-500 " : "!text-gray-600"
-                                 } `}
-                              >
-                                 Currency
-                              </div>
-                           </div>
-                        </Dropdown>
+                        <BasicMenu />
                      </div>
 
                      {/* Reset Button  */}
@@ -256,7 +209,7 @@ export default function Home() {
                            pagination={false}
                            dataSource={dataSource}
                            columns={columns}
-                           scroll={{y:"30rem"}}
+                           scroll={{ y: "30rem" }}
                         />
                      </div>
                   )}
