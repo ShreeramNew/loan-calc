@@ -3,6 +3,7 @@ import Home from "./components/Home";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import NavBar from "./components/NavBar";
 import ExchangeRates from "./components/ExchangeRates";
+import About from "./components/About";
 
 function App() {
    let router = createBrowserRouter([
@@ -17,6 +18,10 @@ function App() {
             {
                path: "/exchange_rates_live",
                Component: ExchangeRates,
+            },
+            {
+               path: "/about",
+               Component: About,
             },
          ],
       },
